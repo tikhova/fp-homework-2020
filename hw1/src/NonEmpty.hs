@@ -1,11 +1,19 @@
 {-# LANGUAGE InstanceSigs #-}
 
-module Block4.Task3 (NonEmpty (..)) where
+module NonEmpty (NonEmpty (..)) where
 
 import           Control.Applicative (liftA2)
 
 -- | Non empty list representation.
 data NonEmpty a = a :| [a] deriving Show
+
+instance Eq a => Eq (NonEmpty a) where
+  (==) :: NonEmpty a -> NonEmpty a -> Bool
+  (==) (x :| xs) (y :| ys) = x == y && xs == ys
+
+instance Semigroup (NonEmpty a) where
+  (<>) :: NonEmpty a -> NonEmpty a -> NonEmpty a
+  (<>) (x :| xs) (y :| ys) = x :| (xs ++ y : ys)
 
 instance Functor NonEmpty where
   fmap :: (a -> b) -> NonEmpty a -> NonEmpty b

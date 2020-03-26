@@ -2,13 +2,9 @@ module Block1.Task2Spec (spec) where
 
 import           Block1.Task2
 import           Control.Exception (evaluate)
-import           Test.Hspec        ( Spec
-                                   , anyException
-                                   , describe
-                                   , it
-                                   , shouldBe
-                                   , shouldThrow
-                                   )
+import           NonEmpty          ()
+import           Test.Hspec        (Spec, anyException, describe, it, shouldBe,
+                                    shouldThrow)
 
 spec :: Spec
 spec = do

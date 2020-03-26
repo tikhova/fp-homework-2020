@@ -3,18 +3,17 @@
 module Block3.Task2
   ( Endo (..)
   , Name (..)
-  , NonEmpty (..)
   , ThisOrThat (..)
   ) where
 
--- | Non empty list representation.
-data NonEmpty a = a :| [a] deriving Show
+data ThisOrThat a b = This a | That b | Both a b deriving Show
 
-instance Semigroup (NonEmpty a) where
-  (<>) :: NonEmpty a -> NonEmpty a -> NonEmpty a
-  (<>) (x :| xs) (y :| ys) = x :| (xs ++ y : ys)
-
-data ThisOrThat a b = This a | That b | Both a b
+instance (Eq a, Eq b) => Eq (ThisOrThat a b) where
+  (==) :: ThisOrThat a b -> ThisOrThat a b -> Bool
+  (==) (This a)   (This b)     = a == b
+  (==) (That a)   (That b)     = a == b
+  (==) (Both a b) (Both a' b') = a == a' && b == b'
+  (==) _          _            = False
 
 instance (Semigroup a, Semigroup b) => Semigroup (ThisOrThat a b) where
   (<>) :: ThisOrThat a b -> ThisOrThat a b -> ThisOrThat a b
@@ -29,9 +28,10 @@ instance (Semigroup a, Semigroup b) => Semigroup (ThisOrThat a b) where
   (<>) (Both a b) (Both a' b') = Both (a <> a') (b <> b')
 
 -- | Name representation.
-newtype Name = Name String
+newtype Name = Name String deriving Show
 
 instance Eq Name where
+  (==) :: Name -> Name -> Bool
   (Name a) == (Name b) = a == b
 
 instance Semigroup Name where

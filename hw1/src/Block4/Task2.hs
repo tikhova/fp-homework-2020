@@ -7,7 +7,13 @@ import           Control.Applicative (liftA2)
 -- | Tree representation.
 data Tree a
   = Branch (Tree a) (Tree a)
-  | Leaf a
+  | Leaf a deriving Show
+
+instance Eq a => Eq (Tree a) where
+  (==) :: Tree a -> Tree a -> Bool
+  (==) (Leaf x)     (Leaf y)       = x == y
+  (==) (Branch l r) (Branch l' r') = l == l' && r == r'
+  (==) _            _              = False
 
 instance Functor Tree where
   fmap :: (a -> b) -> Tree a -> Tree b

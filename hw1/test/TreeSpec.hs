@@ -1,7 +1,7 @@
-module Block1.Task3Spec (spec) where
+module TreeSpec (spec) where
 
-import           Block1.Task3
-import           Block4.Task3      (NonEmpty (..))
+import           Tree
+import           NonEmpty
 import           Test.Hspec        (Spec, describe, it, shouldBe)
 
 spec :: Spec

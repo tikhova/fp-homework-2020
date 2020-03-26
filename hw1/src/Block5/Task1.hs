@@ -20,7 +20,7 @@ data Expr
 data ArithmeticError = DivisionByZero | NegativePower deriving (Show, Eq)
 
 -- | Reduces two expressions to their int values and performs safe operation on them.
-performSafeOperation 
+performSafeOperation
                   :: (Int -> Int -> Int)        -- operation on integers
                   -> Expr                       -- first expression
                   -> Expr                       -- second expression
@@ -30,18 +30,18 @@ performSafeOperation = performOperation (const True) Nothing
 -- | Reduces two expressions to their int values and performs operation on them.
 -- If the condition on second value doesn't hold, returns error,
 -- otherwise returns result of the operation.
-performOperation 
+performOperation
               :: (Int -> Bool)              -- condition on second value
               -> Maybe ArithmeticError      -- possible error
               -> (Int -> Int -> Int)        -- operation on integers
-              -> Expr                       -- first expression 
+              -> Expr                       -- first expression
               -> Expr                       -- second expression
               -> Either ArithmeticError Int -- result of operation
 performOperation p err f x y = fmap f (eval x) <*> evalWithCondition y p err
 
 -- | Reduces expression to its int value, if condition holds returns value,
 -- otherwise returns given error. If posible error is Nothing condition should be const True!
-evalWithCondition 
+evalWithCondition
                :: Expr                       -- arithmetic expression
                -> (Int -> Bool)              -- condition
                -> Maybe ArithmeticError      -- possible error

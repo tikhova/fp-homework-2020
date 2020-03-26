@@ -13,7 +13,7 @@ removeSpacesParser :: Parser Char String
 removeSpacesParser = collectParser $ satisfy (/= ' ')
 
 -- | Returns parser of int list of given size
-listParser 
+listParser
         :: Int               -- size of the list
         -> Parser Char [Int] -- list parser
 listParser n

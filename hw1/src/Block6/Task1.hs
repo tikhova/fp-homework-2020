@@ -11,7 +11,7 @@ newtype Parser s a = Parser { runParser :: [s] -> Maybe (a, [s]) }
 
 -- | Performs function on the first element of the given pair.
 -- Returns pair with unchanged second element as a result.
-first 
+first
    :: (a -> c) -- function
    -> (a, b)   -- initial pair
    -> (c, b)   -- result pair

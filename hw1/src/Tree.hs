@@ -1,4 +1,6 @@
- module Block1.Task3
+{-# LANGUAGE InstanceSigs #-}
+
+module Tree
   ( Tree (..)
   , delete
   , find
@@ -8,8 +10,9 @@
   , size
   ) where
 
-import           Block4.Task3 (NonEmpty (..))
+import           NonEmpty     (NonEmpty (..))
 import           Data.Maybe   (fromJust)
+import           Data.List    (foldr)
 
 -- | Tree representation.
 data Tree a = Leaf
@@ -17,6 +20,19 @@ data Tree a = Leaf
                    , left  :: Tree a     -- left subtree
                    , right :: Tree a     -- right subtree
                    } deriving Show
+
+instance Foldable Tree where
+  foldr :: (a -> b -> b) -> b -> Tree a -> b
+  foldr _ z Leaf         = z
+  foldr f z (Node m l r) = l'
+    where
+      l' = foldr f m' l
+      m' = Data.List.foldr f r' m
+      r' = foldr f z r
+
+  foldMap :: Monoid m => (a -> m) -> Tree a -> m
+  foldMap f = foldr (mappend . f) mempty
+
 
 -- | Check if tree is empty.
 isEmpty :: Tree a -> Bool
