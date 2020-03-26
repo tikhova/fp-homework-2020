@@ -8,6 +8,8 @@ module Block2.Task2
 
 import           Block3.Task2 (NonEmpty (..))
 
+-- | Take a separator element, a list of elements and return non empty list
+-- of chuncks of the given one that were separated by the separator.
 splitOn :: forall a . Eq a => a -> [a] -> NonEmpty [a]
 splitOn x xs = y :| ys
   where
@@ -18,6 +20,8 @@ splitOn x xs = y :| ys
 
     (y, ys) = foldr listSplit ([], []) xs
 
+-- | Take a separator element, a non empty list of chuncks and 
+-- join the chuncks with the separator into list.
 joinWith :: forall a . a -> NonEmpty [a] -> [a]
 joinWith x (y :| ys) = foldr listJoin [] (reverse (y : ys))
   where

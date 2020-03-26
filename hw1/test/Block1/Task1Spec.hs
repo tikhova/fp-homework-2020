@@ -1,7 +1,7 @@
 module Block1.Task1Spec (spec) where
 
-import Test.Hspec (Spec, describe, it, shouldBe)
-import Block1.Task1
+import           Block1.Task1
+import           Test.Hspec   (Spec, describe, it, shouldBe)
 
 spec :: Spec
 spec = do
@@ -26,7 +26,7 @@ spec = do
 
     it "returns Saturday when given Friday" $
       nextDay Friday `shouldBe` Saturday
-    
+
     it "returns Sunday when given Saturday" $
       nextDay Saturday `shouldBe` Sunday
 

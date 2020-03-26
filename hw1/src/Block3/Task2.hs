@@ -7,12 +7,12 @@ module Block3.Task2
   , ThisOrThat (..)
   ) where
 
+-- | Non empty list representation.
 data NonEmpty a = a :| [a] deriving Show
 
 instance Semigroup (NonEmpty a) where
   (<>) :: NonEmpty a -> NonEmpty a -> NonEmpty a
   (<>) (x :| xs) (y :| ys) = x :| (xs ++ y : ys)
-
 
 data ThisOrThat a b = This a | That b | Both a b
 
@@ -28,7 +28,7 @@ instance (Semigroup a, Semigroup b) => Semigroup (ThisOrThat a b) where
   (<>) (Both a b) (That b')    = Both a (b <> b')
   (<>) (Both a b) (Both a' b') = Both (a <> a') (b <> b')
 
-
+-- | Name representation.
 newtype Name = Name String
 
 instance Eq Name where
@@ -44,7 +44,6 @@ instance Monoid Name where
     | a == mempty = b
     | b == mempty = a
     | otherwise   = a <> b
-
 
 newtype Endo a = Endo { getEndo :: a -> a }
 

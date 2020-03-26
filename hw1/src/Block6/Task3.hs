@@ -12,6 +12,7 @@ import           Block6.Task2        (element, eof, ok, satisfy)
 import           Control.Applicative (empty, (<|>))
 import           Data.Char           (isDigit)
 
+-- | Parser of bracket sequences. Falls if the sequence is incorrect.
 bsParser :: Parser Char ()
 bsParser = balanceParser <* eof >>= checkBalance
   where
@@ -37,6 +38,7 @@ bsParser = balanceParser <* eof >>= checkBalance
       | x == 0    = ok
       | otherwise = empty
 
+-- | Parser that parses integers.
 intParser :: Parser Char Int
 intParser = (setSign <$> signParser <*> numberParser) <|> numberParser
   where
@@ -53,6 +55,8 @@ intParser = (setSign <$> signParser <*> numberParser) <|> numberParser
         digitParser :: Parser Char Char
         digitParser = satisfy isDigit
 
+-- | Collects results of the given parser until the end of input.
+-- Skips Nothings.
 collectParser :: forall s a . Parser s a -> Parser s [a]
 collectParser (Parser f) = Parser collectF
   where

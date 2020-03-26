@@ -4,6 +4,7 @@ module Block4.Task3 (NonEmpty (..)) where
 
 import           Control.Applicative (liftA2)
 
+-- | Non empty list representation.
 data NonEmpty a = a :| [a] deriving Show
 
 instance Functor NonEmpty where

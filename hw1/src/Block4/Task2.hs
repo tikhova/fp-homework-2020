@@ -4,6 +4,7 @@ module Block4.Task2 (Tree (..)) where
 
 import           Control.Applicative (liftA2)
 
+-- | Tree representation.
 data Tree a
   = Branch (Tree a) (Tree a)
   | Leaf a

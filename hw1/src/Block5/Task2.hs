@@ -3,10 +3,11 @@ module Block5.Task2 (moving) where
 import           Control.Monad.State (State, evalState, get, put)
 import           Data.Sequence       (Seq (..), drop)
 
+-- | Puts average of n-sized windows in a list. 
 moving :: Int -> [Float] -> [Float]
 moving n list = reverse $ evalState (moveWithState list) Empty
   where
-    moveWithState :: [Float] -> State (Seq Float) [Float] 
+    moveWithState :: [Float] -> State (Seq Float) [Float]
     moveWithState [] = return []
     moveWithState (x : xs) = do
       w <- get

@@ -4,9 +4,9 @@ module Block5.Task1
   , eval
   ) where
 
-
 import           Data.Maybe (fromJust)
 
+-- | Arithmetical expression representation.
 data Expr
   = Const Int
   | Add Expr Expr
@@ -16,16 +16,37 @@ data Expr
   | Pow Expr Expr
   deriving Show
 
+-- | Arithmetical error representation.
 data ArithmeticError = DivisionByZero | NegativePower deriving (Show, Eq)
 
-performSafeOperation :: (Int -> Int -> Int) -> Expr -> Expr -> Either ArithmeticError Int
+-- | Reduces two expressions to their int values and performs safe operation on them.
+performSafeOperation 
+                  :: (Int -> Int -> Int)        -- operation on integers
+                  -> Expr                       -- first expression
+                  -> Expr                       -- second expression
+                  -> Either ArithmeticError Int -- result of operation
 performSafeOperation = performOperation (const True) Nothing
 
-performOperation :: (Int -> Bool) -> Maybe ArithmeticError -> (Int -> Int -> Int) -> Expr -> Expr -> Either ArithmeticError Int
-performOperation p err f x y = fmap f (eval x) <*> evalWithPredicate y p err
+-- | Reduces two expressions to their int values and performs operation on them.
+-- If the condition on second value doesn't hold, returns error,
+-- otherwise returns result of the operation.
+performOperation 
+              :: (Int -> Bool)              -- condition on second value
+              -> Maybe ArithmeticError      -- possible error
+              -> (Int -> Int -> Int)        -- operation on integers
+              -> Expr                       -- first expression 
+              -> Expr                       -- second expression
+              -> Either ArithmeticError Int -- result of operation
+performOperation p err f x y = fmap f (eval x) <*> evalWithCondition y p err
 
-evalWithPredicate :: Expr -> (Int -> Bool) -> Maybe ArithmeticError -> Either ArithmeticError Int
-evalWithPredicate expr p err =
+-- | Reduces expression to its int value, if condition holds returns value,
+-- otherwise returns given error. If posible error is Nothing condition should be const True!
+evalWithCondition 
+               :: Expr                       -- arithmetic expression
+               -> (Int -> Bool)              -- condition
+               -> Maybe ArithmeticError      -- possible error
+               -> Either ArithmeticError Int -- result
+evalWithCondition expr p err =
   case eval expr of
     Left e    -> Left e
     Right val ->
@@ -33,6 +54,8 @@ evalWithPredicate expr p err =
       then Right val
       else Left $ fromJust err
 
+-- | Reduces expression to its int value, if any errors occurs returns it,
+-- otherwise returns int value.
 eval :: Expr -> Either ArithmeticError Int
 eval (Const x) = Right x
 eval (Add x y) = performSafeOperation (+) x y
